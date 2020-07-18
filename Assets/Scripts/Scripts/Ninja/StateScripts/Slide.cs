@@ -1,23 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using UnityEngine;
 
-public class Sprint : StateMachineBehaviour
-{  
-    public float Speed = 2f; 
+public class Slide : StateMachineBehaviour
+{
+    public float Speed = 6f;
     public float TurnSmoothTime = 0.1f;
     float TurnSmoothVelocity;
-     
+    NinjaController ninja; 
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    { 
-
+    {
+        ninja = animator.GetComponentInParent<NinjaController>();  
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        NinjaController ninja = animator.GetComponentInParent<NinjaController>();
-
+    { 
+        if (!ninja.IsSlideArea)
+        {
+            animator.SetBool(TransitionParameters.Slide.ToString(), false); 
+        }
+         
         float vertical = Input.GetAxisRaw("Vertical");
         float horizontal = Input.GetAxisRaw("Horizontal");
 
@@ -30,25 +33,14 @@ public class Sprint : StateMachineBehaviour
             float angle = Mathf.SmoothDampAngle(ninja.transform.eulerAngles.y, targetAngle, ref TurnSmoothVelocity, TurnSmoothTime);
             ninja.transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-            ninja.RIGID_BODY.MovePosition(ninja.RIGID_BODY.position + moveDir.normalized * Speed * Time.fixedDeltaTime);
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; 
         }
 
-
-        if (!ninja.W && !ninja.A && !ninja.S && !ninja.D)
-        {
-            animator.SetBool(TransitionParameters.Sprint.ToString(), false);
-        }
-
-        if (ninja.IsSlideArea)
-        {
-            animator.SetBool(TransitionParameters.Slide.ToString(), true);
-        } 
+        ninja.transform.Translate(Vector3.forward * Speed * Time.deltaTime);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
+    {  
 
     } 
 } 
