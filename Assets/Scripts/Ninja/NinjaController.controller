@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e2f68d7c3239145891599436416f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
+  Speed: 3
   TurnSmoothTime: 0.1
 --- !u!1101 &-2762671482605837214
 AnimatorStateTransition:
@@ -202,9 +202,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.47999954
+  m_TransitionDuration: 0.102212906
   m_TransitionOffset: 0
-  m_ExitTime: 0.9493243
+  m_ExitTime: 0.97914964
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

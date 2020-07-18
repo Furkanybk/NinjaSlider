@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sprint : StateMachineBehaviour
 {  
-    public float Speed = 6f; 
+    public float Speed = 2f; 
     public float TurnSmoothTime = 0.1f;
     float TurnSmoothVelocity;
      

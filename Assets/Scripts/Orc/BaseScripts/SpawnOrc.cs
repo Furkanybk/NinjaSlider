@@ -12,21 +12,29 @@ enum DivideAxis
 public class SpawnOrc : MonoBehaviour
 {
 
-    [SerializeField] private DivideAxis DivideAxis;
-    public GameObject Orc;
-    public GameObject MoveSpot;
+    [SerializeField] 
+    private DivideAxis DivideAxis;
+
+    [SerializeField] 
+    private GameObject Orc;
+
+    [SerializeField]
+    private GameObject MoveSpot;
+
+    private Transform parent = null;
 
     public float OrcNumber; 
     public float DivideNumber;
 
     [SerializeField] private float Margin = 0;
-
-
+    private static int OrcCount = 0;
 
     private void Awake()
     {
-        float ScaleX = transform.localScale.x - Margin * 2;
-        float ScaleZ = transform.localScale.z - Margin * 2;
+        parent = GameObject.Find("OrcSpawn").transform;
+
+        float ScaleX = transform.lossyScale.x - Margin * 2;
+        float ScaleZ = transform.lossyScale.z - Margin * 2;
 
         float startZ = transform.position.z - ScaleZ / 2;
         float endZ = transform.position.z + ScaleZ / 2;
@@ -55,10 +63,13 @@ public class SpawnOrc : MonoBehaviour
                         float z = Random.Range(startZ, endZ);
 
                         Vector3 position = new Vector3(x, 2f, z);
-                        GameObject obj = Instantiate(Orc, position, Quaternion.identity);
+                        GameObject obj = Instantiate(Orc, position, Quaternion.identity, parent);
+                        obj.name = "Orc " + OrcCount++;
 
                         OrcController oc = obj.GetComponent<OrcController>();
-                        oc.MoveSpot = Instantiate(MoveSpot, position, Quaternion.identity).transform; 
+                        oc.MoveSpot = Instantiate(MoveSpot, position, Quaternion.identity, parent).transform;
+                        oc.MoveSpot.name = obj.name + " Move Spot";
+
                         oc.Speed = 3;
                         oc.StartWaitTime = 5;
                         oc.minX = pieceS;
@@ -90,10 +101,10 @@ public class SpawnOrc : MonoBehaviour
                         float z = Random.Range(pieceS, pieceE);
 
                         Vector3 position = new Vector3(x, 2f, z); 
-                        GameObject obj = Instantiate(Orc, position, Quaternion.identity);
+                        GameObject obj = Instantiate(Orc, position, Quaternion.identity, parent);
 
                         OrcController oc = obj.GetComponent<OrcController>();
-                        oc.MoveSpot = Instantiate(MoveSpot, position, Quaternion.identity).transform;
+                        oc.MoveSpot = Instantiate(MoveSpot, position, Quaternion.identity, parent).transform;
                         oc.Speed = 3.5f;
                         oc.StartWaitTime = 1.75f;
                         oc.minX = startX;

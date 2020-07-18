@@ -63,26 +63,17 @@ public class NinjaController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "SlideCollider" && !IsSlideArea)
-        {
-            IsSlideArea = true; 
-        }
-        else
-        {
-            IsSlideArea = false; 
-        }
+        //if(other.gameObject.tag == "SlideCollider" && !IsSlideArea)
+        //{
+        //    IsSlideArea = true; 
+        //}
+        //else
+        //{
+        //    IsSlideArea = false; 
+        //}
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.gameObject.layer == 10 && !IsSlideArea)
-        {
-            IsSlideArea = true;
-        }
-        else if (collision.collider.gameObject.layer == 8 || collision.collider.gameObject.layer == 12 || collision.collider.gameObject.layer == 13)
-        {
-            IsSlideArea = false; 
-        }
-
         if(collision.collider.tag == "Orc")
         { 
             animator.SetBool(TransitionParameters.Death.ToString(), true);
@@ -99,7 +90,19 @@ public class NinjaController : MonoBehaviour
         { 
             FindObjectOfType<GameMenu>().Complete();
         }
-    } 
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.gameObject.layer == 10 && !IsSlideArea)
+        {
+            IsSlideArea = true;
+        }
+        else if (collision.collider.gameObject.layer == 8 || collision.collider.gameObject.layer == 12 || collision.collider.gameObject.layer == 13)
+        {
+            IsSlideArea = false;
+        }
+    }
 
     private IEnumerator closeText(float time)
     {
